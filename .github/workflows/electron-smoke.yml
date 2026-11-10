@@ -1,0 +1,49 @@
+name: Electron smoke
+
+# Called by ci.yml and publish.yml: the same proof gates a pull request and a release.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  electron-smoke:
+    name: Electron smoke (${{ matrix.os }})
+    # The two platforms the desktop programs ship on: electron-updater picks its updater by
+    # platform (MacUpdater over Squirrel.Mac, NsisUpdater), so each one runs here.
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "26"
+          cache: npm
+
+      # Dependency lifecycle scripts are an arbitrary-code-execution path during install.
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # The one install script this job needs, run by name: it downloads the Electron binary
+      # that `--ignore-scripts` skipped and checks it against the checksums in the package.
+      - name: Download the Electron binary
+        run: node node_modules/electron/install.js
+
+      # Rollup directly instead of `npm run build`: the build script is a POSIX shell script,
+      # and its output checks already run in the verify job.
+      - name: Build
+        run: npx rollup -c
+
+      # Launches the built package in a real Electron with the real electron-updater against a
+      # feed and a version policy on the loopback interface: check, staged rollout, downgrade,
+      # checksum, download, the required-update gate, offline start, unsigned and development
+      # builds. Nothing is installed: that needs a packaged (on macOS, signed) program.
+      - name: Smoke test in Electron
+        run: npm run test:electron
