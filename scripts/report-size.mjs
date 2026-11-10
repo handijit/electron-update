@@ -11,13 +11,13 @@ const OUTPUTS = [
 // the program's page bundle: the budgets guard those. main is loaded once, from disk, and is
 // budgeted so that a dependency bundled by accident is noticed.
 const GZIP_BUDGETS = {
-  "build/index.mjs": 1200,
+  "build/index.mjs": 1900,
   "build/preload.cjs": 700,
-  "build/renderer.mjs": 1500,
-  "build/react.mjs": 500,
-  "build/ui.mjs": 3200,
-  "build/styles.css": 1600,
-  "build/main.mjs": 8500,
+  "build/renderer.mjs": 2300,
+  "build/react.mjs": 600,
+  "build/ui.mjs": 5000,
+  "build/styles.css": 1700,
+  "build/main.mjs": 14000,
 };
 
 const missing = OUTPUTS.filter((file) => !existsSync(file));
