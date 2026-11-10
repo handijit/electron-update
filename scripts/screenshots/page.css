@@ -1,0 +1,102 @@
+/* Only what stands around the components in a program: a title bar, a settings row. */
+html,
+body {
+  margin: 0;
+  background-color: var(--hd-bg-page);
+  color: var(--hd-text);
+  font-family: var(--hd-font-body);
+}
+
+.shot-sheet {
+  display: grid;
+  gap: var(--hd-space-3);
+  padding: var(--hd-space-6);
+}
+
+.shot-row {
+  display: grid;
+  grid-template-columns: 11rem 26rem minmax(0, 1fr);
+  gap: var(--hd-space-4);
+  align-items: center;
+}
+
+.shot-row--head {
+  color: var(--hd-text-2);
+  font-size: var(--hd-type-caption-size);
+}
+
+.shot-row code {
+  font-family: var(--hd-font-mono);
+  font-size: var(--hd-type-caption-size);
+  color: var(--hd-text-2);
+}
+
+.shot-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 40px;
+  padding-inline: var(--hd-space-3);
+  border: 1px solid var(--hd-border);
+  background-color: var(--hd-bg-surface);
+}
+
+.shot-titlebar__name {
+  font-size: var(--hd-type-small-size);
+  font-weight: 600;
+}
+
+.shot-titlebar__end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hd-space-3);
+}
+
+.shot-controls {
+  display: inline-flex;
+  gap: var(--hd-space-3);
+  padding-inline-start: var(--hd-space-2);
+}
+
+.shot-controls i {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--hd-text-2);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.shot-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hd-space-4);
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: var(--hd-space-2) var(--hd-space-4);
+  border: 1px solid var(--hd-border);
+  border-radius: var(--hd-radius-md);
+  background-color: var(--hd-bg-surface);
+}
+
+.shot-setting__label {
+  display: grid;
+  flex-shrink: 0;
+  font-size: var(--hd-type-small-size);
+  font-weight: 600;
+}
+
+.shot-setting__label small {
+  font-weight: 400;
+  color: var(--hd-text-2);
+}
+
+.shot-program {
+  padding: var(--hd-space-8);
+}
+
+/* The gate's bar holds the program's own title bar. */
+.hdu-gate__bar .shot-titlebar {
+  border-width: 0 0 1px;
+}
