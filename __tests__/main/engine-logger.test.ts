@@ -14,6 +14,25 @@ describe("sanitizeLine", () => {
     ).toBe("Cached update at ~/Library/Caches/demo-updater/pending");
   });
 
+  test("should replace any account folder, also one that is not Node's home", () => {
+    expect(
+      sanitizeLine(
+        "Code signature at URL file:///Users/mehmet/Library/Caches/tr.com.handijit.demo.ShipIt/update.Zs1/Demo.app/ did not pass validation",
+        HOME
+      )
+    ).toBe(
+      "Code signature at URL file://~/Library/Caches/tr.com.handijit.demo.ShipIt/update.Zs1/Demo.app/ did not pass validation"
+    );
+    expect(
+      sanitizeLine(
+        String.raw`spawn C:\Users\Ayşe Yılmaz\AppData\Local\demo-updater\pending\Demo-Setup.exe EACCES, /home/ali/demo`,
+        ""
+      )
+    ).toBe(
+      String.raw`spawn ~\AppData\Local\demo-updater\pending\Demo-Setup.exe EACCES, ~/demo`
+    );
+  });
+
   test("should drop the installation's rollout id and the query of a URL", () => {
     expect(
       sanitizeLine(
