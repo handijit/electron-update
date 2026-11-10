@@ -35,6 +35,9 @@ export default defineConfig({
         },
       },
     ],
+    // @handijit/electron imports `electron`; processed by Vite, it gets the tests' mock of it
+    // instead of the npm package, which only knows the path of a binary.
+    server: { deps: { inline: [/@handijit\/electron/] } },
     restoreMocks: true,
     unstubGlobals: true,
     unstubEnvs: true,
