@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    // Electron 43 embeds Node 24 and Chromium 14x; nothing to downlevel.
+    "target": "ES2023",
+    "module": "ESNext",
+    "lib": ["ES2023", "DOM"],
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    // lib/main runs in Electron's main process and needs the Node types. The entries that must
+    // stay free of Node (shared, preload, renderer, react, ui) are guarded by ESLint and by
+    // scripts/verify-build.mjs instead of by an empty "types".
+    "types": ["node"],
+    "noEmit": false,
+    // The entries that build on another entry import it by its published name, so that the
+    // bundles share one copy at run time; here the name points back at the sources.
+    "paths": {
+      "@handijit/electron-update/renderer": ["./lib/renderer.ts"],
+      "@handijit/electron-update/react": ["./lib/react.ts"]
+    },
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "useUnknownInCatchVariables": true,
+
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["lib"],
+  "exclude": ["node_modules", "__tests__", "build"]
+}
