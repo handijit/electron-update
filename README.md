@@ -66,14 +66,16 @@ import {
   registerUpdateIpc,
 } from "@handijit/electron-update/main";
 import type { Updater } from "@handijit/electron-update/main";
-import { net } from "electron";
+import { app, net } from "electron";
 import electronUpdater from "electron-updater";
 
 import { contract } from "../shared/contract";
 
 let updater: Updater | undefined;
 
-await startApp({
+// No top-level `await`: Electron emits `ready` only after an ES module main has finished
+// evaluating, so awaiting the start-up here would wait forever.
+startApp({
   contract,
   handlers: (context) => {
     // Created here: this is the first place the program's logger and URL policy exist.
@@ -95,6 +97,9 @@ await startApp({
     await updater?.start();
   },
   // ...rendererRoot, window, contentSecurityPolicy as before
+}).catch((error: unknown) => {
+  console.error("The program could not start", error);
+  app.exit(1);
 });
 ```
 

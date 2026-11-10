@@ -1,6 +1,6 @@
 {
   "name": "@handijit/electron-update",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The update experience of Han Dijit's Electron desktop programs: an explicit state machine over electron-updater, the backend's minimum-version policy with an offline-safe cache, a typed IPC contract, a React hook, and the update button and the required-update gate built on @handijit/ui.",
   "author": "Ahmet ilhan <ahmetilhan.dev@gmail.com>",
   "license": "MIT",
